@@ -4,7 +4,6 @@
 # exact return code (when >0) is on the right, so it stays out of the way
 
 # TODO: reset exit code visual cues (not exit code itself) after showing once
-# TODO: compress hostname in window title
 
 typeset -A host_repr
 host_repr=('dieter-ws-a7n8x-arch' "%{$fg_bold[green]%}ws" 'dieter-p4sci-arch' "%{$fg_bold[blue]%}p4")
