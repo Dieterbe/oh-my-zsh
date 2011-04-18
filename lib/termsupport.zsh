@@ -1,6 +1,6 @@
 typeset -A host_repr_txt
 # define compact hostnames here. wish I could deduce this from host_repr
-host_repr_txt=('dieter-ws-a7n8x-arch' "ws" 'dieter-p4sci-arch' "p4")
+host_repr_txt=('dieter-ws-a7n8x-arch' 'ws' 'dieter-p4sci-arch' 'p4' 'gibran' 'Gi')
 
 local hostp="@${host_repr_txt[$(hostname)]:-$(hostname)}"
 
