@@ -1,19 +1,12 @@
-typeset -A host_repr_txt
-# define compact hostnames here. wish I could deduce this from host_repr
-host_repr_txt=('dieter-ws-a7n8x-arch' 'ws' 'dieter-p4sci-arch' 'p4' 'gibran' 'Gi')
-
-local hostp="@${host_repr_txt[$(hostname)]:-$(hostname)}"
-
-# print -Pn "\e]0;%n${hostp} %~\a"  # xterm
 #usage: title short_tab_title looooooooooooooooooooooggggggg_windows_title
 #http://www.faqs.org/docs/Linux-mini/Xterm-Title.html#ss3.1
 #Fully support screen, iterm, and probably most modern xterm and rxvt
 #Limited support for Apple Terminal (Terminal can't set window or tab separately)
 function title {
   [ "$DISABLE_AUTO_TITLE" != "true" ] || return
-  if [[ $TERM =~ "^screen" ]]; then 
+  if [[ "$TERM" == screen* ]]; then 
     print -Pn "\ek$1:q\e\\" #set screen hardstatus, usually truncated at 20 chars
-  elif [[ ($TERM =~ "^xterm") ]] || [[ ($TERM == "rxvt") ]] || [[ "$TERM_PROGRAM" == "iTerm.app" ]]; then
+  elif [[ "$TERM" == xterm* ]] || [[ $TERM == rxvt* ]] || [[ "$TERM_PROGRAM" == "iTerm.app" ]]; then
     print -Pn "\e]2;$2:q\a" #set window name
     print -Pn "\e]1;$1:q\a" #set icon (=tab) name (will override window name on broken terminal)
   fi

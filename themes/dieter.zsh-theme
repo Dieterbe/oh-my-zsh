@@ -7,9 +7,15 @@
 # (i.e. they will be reset, even if you hit enter a few times on empty command prompts)
 
 typeset -A host_repr
+typeset -A host_repr_txt
 
 # translate hostnames into shortened, colorcoded strings
 host_repr=('dieter-ws' "%{$fg_bold[green]%}ws" 'dieter-p4sci-arch' "%{$fg_bold[blue]%}p4" 'gibran' "%{$fg_bold[yellow]%}Gi")
+# define compact hostnames here. wish I could deduce this from host_repr
+host_repr_txt=('dieter-ws-a7n8x-arch' 'ws' 'dieter-p4sci-arch' 'p4' 'gibran' 'Gi')
+
+local hostp="@${host_repr_txt[$(hostname)]:-$(hostname)}"
+
 
 # local time, color coded by last return code
 time_enabled="%(?.%{$fg[green]%}.%{$fg[red]%})%*%{$reset_color%}"
@@ -54,3 +60,14 @@ function accept-line-or-clear-warning () {
 }
 zle -N accept-line-or-clear-warning
 bindkey '^M' accept-line-or-clear-warning
+ZSH_THEME_TERM_TAB_TITLE_IDLE="%15<..<%~%<<" #15 char left truncated PWD
+ZSH_THEME_TERM_TITLE_IDLE="%n${hostp} %~"
+
+# default oh-my-zsh strips stuff like user@host, ssh/sudo when you execute a command
+# i want all that stuff to be shown normally
+function preexec {
+  emulate -L zsh
+  setopt extended_glob
+  local CMD=${1}
+  title "%n${hostp} %~ $CMD" "%n${hostp} %~ $CMD"
+}
